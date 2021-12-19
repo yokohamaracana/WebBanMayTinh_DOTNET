@@ -1,0 +1,91 @@
+@{
+    Layout = "_LayoutAdmin";
+    var orders = ViewData["orders"] as List<Order>;
+}
+<main>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Doanh thu theo tháng
+        </div>
+        <div class="card-body" id="text-print-monthly-revenue">
+            <table id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Name</th>
+                        <th>Image</th>
+                        <th>Price</th>
+                        <th>Amount</th>
+                        <th>Total Money</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Time</th>
+                        <th>Name</th>
+                        <th>Image</th>
+                        <th>Price</th>
+                        <th>Amount</th>
+                        <th>Total Money</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var item in orders)
+                    {
+                            if(item.Time.Year == ViewBag.year && item.Time.Month == ViewBag.month) {
+                            var value = new sanphamContext().OrderProducts.Where(s => s.IdOrder == item.Id);
+                                foreach(var item1 in value) {
+                                    var value1 = new sanphamContext().Products.Find(item1.IdProduct);
+                                    var result = item1.Amount*value1.DiscountPrice;
+                                    <tr>
+                                    <td>@item.Time</td>
+                                    <td>@value1.Name</td>
+                                    <td><img src="~/uploads/@value1.Image" alt="" style="width:270px;height:120px;"></td>
+                                    <td class="parse-money">@value1.DiscountPrice</td>
+                                    <td>@item1.Amount</td>
+                                    <td class="parse-money">@result VND</td>
+                                    </tr>
+                                }
+                            }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+<div class="d-flex justify-content-center">
+    <a asp-action="IncomePage" asp-route-year="@ViewBag.year" class="btn btn-primary">Quay lại</a>
+<button class="btn btn-primary" style="margin-left: 10px;" onclick="printDiv('text-print-monthly-revenue')">In thông tin doanh thu của tháng</button>
+</div>
+@section printPage {
+<script>
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = printContents;
+
+        window.print();
+
+        document.body.innerHTML = originalContents;
+    }
+</script>
+}
+@section parse {
+    <script>
+        let x = document.querySelectorAll(".parse-money");
+        for (let i = 0, len = x.length; i < len; i++) {
+            let num = Number(x[i].innerHTML)
+                      .toLocaleString('en');
+            x[i].innerHTML = num +' VND';
+        }
+        @* let y = document.querySelectorAll("del");
+        for (let i = 0, len = y.length; i < len; i++) {
+            let num = Number(y[i].innerHTML)
+                      .toLocaleString('en');
+            y[i].innerHTML = num + ' VND';
+        } *@
+    </script>
+}

@@ -1,0 +1,166 @@
+@using WebBanMayTinh.Models
+@{
+    var product = ViewData["product"] as List<Cart>;
+    int amountSum = 0;
+    var alertDeleteCard = ViewData["alertDeleteCard"];
+}
+
+<div class="product-big-title-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-bit-title text-center">
+                    <h2>Shopping Cart</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- End Page title area -->
+
+  @if(Convert.ToInt32(alertDeleteCard) == 0)
+  {
+    <div class="alert alert-success" role="alert">
+       Xóa thành công
+    </div>
+  }
+<div class="single-product-area">
+    <div class="zigzag-bottom"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+
+
+
+            </div>
+
+            <div class="col-md-8">
+                <div class="product-content-right">
+                    <div class="woocommerce">
+                        <form method="post" action="#">
+                            <table cellspacing="0" class="shop_table cart">
+                                <thead>
+                                    <tr>
+                                        <th class="product-remove">&nbsp;</th>
+                                        <th class="product-thumbnail">&nbsp;</th>
+                                        <th class="product-name">Product</th>
+                                        <th class="product-price">Price</th>
+                                        <th class="product-quantity">Quantity</th>
+                                        <th class="product-subtotal">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in product)
+                                    {
+                                        var value = new sanphamContext().Products.Find(item.IdProduct);
+                                        var amount = value.Price * item.Amount;
+                                        amountSum += amount;
+                                        <tr class="cart_item">
+                                            <td class="product-remove">
+                                                <a title="Remove this item" class="remove" asp-action="DeleteCart" asp-controller="Home" asp-route-id="@item.Id">×</a>
+                                            </td>
+                                            <td class="product-thumbnail">
+                                                <a href="single-product.html"><img width="145" height="145"
+                                                    alt="poster_1_up" class="shop_thumbnail"
+                                                    src="~/uploads/@value.Image"></a>
+                                            </td>
+
+                                            <td class="product-name">
+                                                <a asp-controller="Home" asp-action="SingleProduct"
+                                                asp-route-id="@value.Id">@value.Name</a>
+                                            </td>
+
+                                            <td class="product-price">
+                                                <span class="amount">@value.Price</span>
+                                            </td>
+
+                                            <td class="product-quantity">
+                                                @item.Amount
+                                            </td>
+
+                                            <td class="product-subtotal">
+                                                <span class="amount">@amount</span>
+                                            </td>
+                                        </tr>
+                                    }
+                                    <tr>
+                                        <td class="actions" colspan="6">
+
+                                            @* <input type="submit" value="Update Cart" name="update_cart"
+                                                class="button"> *@
+                                            @* <input type="submit" value="Checkout" name="proceed"
+                                                class="checkout-button button alt wc-forward" id="click_check"> *@
+                                                                                    <a class="add_to_cart_button" data-quantity="1" data-product_sku=""
+                                            data-product_id="22" rel="nofollow" asp-action="CheckOut" >Check out</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+
+                        <div class="cart-collaterals">
+
+
+
+
+                            <div class="cart_totals ">
+                                <h2>Cart Totals</h2>
+
+                                <table cellspacing="0">
+                                    <tbody>
+                                        <tr class="cart-subtotal">
+                                            <th>Cart Subtotal</th>
+                                            <td><span class="amount">@amountSum</span></td>
+                                        </tr>
+
+                                        <tr class="shipping">
+                                            <th>Shipping and Handling</th>
+                                            <td>Free Shipping</td>
+                                        </tr>
+
+                                        <tr class="order-total">
+                                            <th>Order Total</th>
+                                            <td><strong><span class="amount">@amountSum</span></strong> </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    @* $('#click_check').click(function () {
+        alert(@amountSum);
+
+        $.ajax({
+            url: '@Url.Action("testCart","Home")',
+            type: 'POST',
+            data: {
+                a: arr,
+            }
+        }).done(function (ketqua) {
+            $('#noidung').html(ketqua);
+        });
+    }); *@
+    $('.active').removeClass('active');
+    $('.cart_page').addClass('active');
+</script>
+@section parse {
+    <script>
+        let x = document.querySelectorAll(".amount");
+        for (let i = 0, len = x.length; i < len; i++) {
+            let num = Number(x[i].innerHTML)
+                      .toLocaleString('en');
+            x[i].innerHTML = num +' VND';
+        }
+        @* let y = document.querySelectorAll("del");
+        for (let i = 0, len = y.length; i < len; i++) {
+            let num = Number(y[i].innerHTML)
+                      .toLocaleString('en');
+            y[i].innerHTML = num + ' VND';
+        } *@
+    </script>
+}

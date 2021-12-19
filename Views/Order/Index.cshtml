@@ -1,0 +1,54 @@
+@{
+    Layout = "_LayoutAdmin";
+    var orders = ViewData["orders"] as List<Order>;
+}
+<main>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            DataTable Example
+        </div>
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th>Id đơn hàng</th>
+                        <th>Người đặt hàng (email)</th>
+                        <th>Trạng thái đơn hàng / Xem thông tin / Xóa</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Id đơn hàng</th>
+                        <th>Người đặt hàng (email)</th>
+                        <th>Trạng thái đơn hàng / Xem thông tin / Xóa</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var item in orders)
+                    {
+                        var value = new sanphamContext().Users.Find(item.IdUser);
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@value.Email</td>
+                            <td>
+                            @if(item.Status == 0) {
+                                <div class="btn btn-secondary">Chưa duyệt</div>
+                            }
+                            else {
+                                <div class="btn btn-success">Đã duyệt</div>
+                            }
+                            <a class="btn btn-outline-primary" asp-action="Show" asp-route-id="@item.Id">Xem đơn hàng</a>
+                            <a class="btn btn-outline-dark" asp-action="destroy" asp-route-id="@item.Id">Xóa đơn hàng</a>
+                            @if(item.Status == 0) {
+                                <a asp-action="OrderBrowsing" asp-route-id="@item.Id" class="btn btn-outline-success">Duyệt đơn hàng</a>
+                            }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+</main>

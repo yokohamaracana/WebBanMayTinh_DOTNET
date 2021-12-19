@@ -1,0 +1,59 @@
+
+@{
+    var products = ViewData["products"] as List<Product>;
+    var count = products.Count;
+}
+<div class="product-big-title-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-bit-title text-center">
+                    <h2>Search</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2 class="section-title">Có @count sản phẩm tìm được</h2>
+
+<div class="single-product-area">
+    <div class="zigzag-bottom"></div>
+    <div class="container">
+        <div class="row" style="display: flex; flex-wrap: wrap">
+            @foreach (var product in products) {
+                <div class="col-md-3 col-sm-6">
+                    <div class="single-shop-product">
+                        <div class="product-upper">
+                            <img src="~/uploads/@product.Image" style="width:262px; height:175px" alt="">
+                        </div>
+                        <h2><a asp-controller="Home" asp-action="SingleProduct" asp-route-id="@product.Id">@product.Name</a></h2>
+                        <div class="product-carousel-price">
+                            <ins>@product.Price</ins> <del>@product.Price</del>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <script>
+        $('.active').removeClass('active');
+        $('.shop_page').addClass('active');
+    </script>
+</div> 
+@section parse {
+    <script>
+        let x = document.querySelectorAll("ins");
+        for (let i = 0, len = x.length; i < len; i++) {
+            let num = Number(x[i].innerHTML)
+                      .toLocaleString('en');
+            x[i].innerHTML = num +' VND';
+        }
+        let y = document.querySelectorAll("del");
+        for (let i = 0, len = y.length; i < len; i++) {
+            let num = Number(y[i].innerHTML)
+                      .toLocaleString('en');
+            y[i].innerHTML = num + ' VND';
+        }
+    </script>
+}

@@ -1,0 +1,231 @@
+@{
+    var GroupProduct = ViewData["GroupProduct"] as List<Product>;
+    var product = ViewData["product"] as Product;
+    var coments = ViewData["coments"] as List<Coment>;
+    var sort_id_products = ViewData["sort_id_product"] as List<Product>;
+    var countComent = coments.Count;
+    var avg = ViewData["avg"];
+    var alertAddCard = ViewData["alertAddCard"];
+}
+
+<div class="product-big-title-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-bit-title text-center">
+                    <h2>Shop</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Convert.ToInt32(alertAddCard) == 0)
+{
+    <div class="alert alert-success" role="alert">
+        Thêm thành công
+    </div>
+}
+
+<div class="single-product-area">
+    <div class="zigzag-bottom"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="single-sidebar">
+                    <h2 class="sidebar-title">Search Products</h2>
+                    <form action="">
+                        <input type="text" placeholder="Search products...">
+                        <input type="submit" value="Search">
+                    </form>
+                </div>
+
+                <div class="single-sidebar">
+                    <h2 class="sidebar-title">Products News</h2>
+                    @foreach (var item in sort_id_products)
+                    {
+                        if (item.Id != product.Id)
+                        {
+                            <div class="thubmnail-recent">
+                                <img src="~/uploads/@item.Image" class="recent-thumb" alt="">
+                                <h2><a asp-controller="Home" asp-action="SingleProduct" asp-route-id="@item.Id">@item.Name</a>
+                                </h2>
+                                <div class="product-sidebar-price">
+                                    <ins>@item.Price</ins> <del>@item.DiscountPrice</del>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+
+            </div>
+
+            <div class="col-md-8">
+                <div class="product-content-right">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="product-images">
+                                <div class="product-main-img">
+                                    <img src="~/uploads/@product.Image" alt="">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="product-inner">
+                                <h2 class="product-name">@product.Name</h2>
+                                <div class="product-inner-price">
+                                    <ins>@product.Price</ins> <del>@product.DiscountPrice</del>
+                                </div>
+                                <form asp-action="AddCart" asp-controller="Home" asp-route-id="@product.Id" class="cart"
+                                    method="post">
+                                    <div class="quantity">
+                                        <input type="number" size="4" class="input-text qty text" title="Qty" value="1"
+                                            name="quantity" min="1" step="1">
+                                    </div>
+                                    <button class="add_to_cart_button" type="submit">Add to cart</button>
+                                </form>
+
+                                <div class="product-inner-category">
+                                    @* <div class="rating-css">
+                                        <div class="star-icon">
+                                        <input type="radio" name="rating1" id="rating1">
+                                        <label for="rating1" class="fa fa-star"></label>
+                                        <input type="radio" name="rating1" id="rating2">
+                                        <label for="rating2" class="fa fa-star"></label>
+                                        <input type="radio" name="rating1" id="rating3">
+                                        <label for="rating3" class="fa fa-star"></label>
+                                        <input type="radio" name="rating1" id="rating4">
+                                        <label for="rating4" class="fa fa-star"></label>
+                                        <input type="radio" name="rating1" id="rating5">
+                                        <label for="rating5" class="fa fa-star"></label>
+                                        </div>
+                                        </div> *@
+                                    <h4>@avg / 5 sao</h4>
+                                    <h4>@countComent đánh giá</h4>
+                                </div>
+
+                                <div role="tabpanel">
+                                    <ul class="product-tab" role="tablist">
+                                        <li role="presentation" class="active"><a href="#home" aria-controls="home"
+                                                role="tab" data-toggle="tab">Short Description</a></li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane fade in active" id="home">
+                                            <h2>Product Description</h2>
+                                        </div>
+                                        <div class="">
+                                            @product.ShortDesc
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="related-products-wrapper">
+                        <h2 class="related-products-title">Related Products</h2>
+                        <div class="related-products-carousel">
+                            @foreach (var item in GroupProduct)
+                            {
+                                if (item.Id != product.Id)
+                                {
+                                    <div class="single-product">
+                                        <div class="product-f-image">
+                                            <img src="~/uploads/@item.Image" alt="">
+                                            <div class="product-hover">
+                                                <a asp-controller="Home" asp-action="SingleProduct" asp-route-id="@item.Id"
+                                            class="add-to-cart-link"></a>
+                                                <a asp-controller="Home" asp-action="SingleProduct" asp-route-id="@item.Id"
+                                            class="view-details-link"><i class="fa fa-link"></i> See details</a>
+                                            </div>
+                                        </div>
+
+                                        <h2><a href="">@item.Name</a></h2>
+
+                                        <div class="product-carousel-price">
+                                            <ins>@item.Price</ins> <del>@item.DiscountPrice</del>
+                                        </div>
+                                    </div>
+                                }
+                            }
+
+
+                        </div>
+                    </div>
+                    <div class="related-products-wrapper">
+                        <h2 class="related-products-title">Đánh giá sản phẩm</h2>
+                        <form asp-controller="Home" asp-action="AddRate" asp-route-id="@product.Id" method="post">
+                            <div class="rating-css">
+                                <div class="star-icon">
+                                    <input type="radio" name="rating" id="rating1" value="1">
+                                    <label for="rating1" class="fa fa-star"></label>
+                                    <input type="radio" name="rating" id="rating2" value="2">
+                                    <label for="rating2" class="fa fa-star"></label>
+                                    <input type="radio" name="rating" id="rating3" value="3">
+                                    <label for="rating3" class="fa fa-star"></label>
+                                    <input type="radio" name="rating" id="rating4" value="4">
+                                    <label for="rating4" class="fa fa-star"></label>
+                                    <input type="radio" name="rating" id="rating5" value="5">
+                                    <label for="rating5" class="fa fa-star"></label>
+                                </div>
+                            </div>
+                            <br>
+                            <label for="title">bình luận</label>
+                            <textarea class="form-control" name="content" id="exampleFormControlTextarea1" rows="3"
+                                required=""
+                                style="margin: 0px -11.9965px 0px 0px; width: 762px; height: 164px;"></textarea>
+                            <br>
+                            <input type="submit" class="btn btn-primary mt-2" value="Thêm">
+                        </form>
+                    </div>
+                    <div class="related-products-wrapper">
+                        <div class="list__comments">
+                            <h2 class="related-products-title">Bình luận của người dùng</h2>
+                            @foreach (var item in coments)
+                            {
+                                var value = new sanphamContext().Users.Find(item.IdUser);
+                                <div class="one__comments">
+                                    <div class="avata__customer">
+                                        <img src="~/uploads/user.png" alt="">
+                                    </div>
+                                    <div class="information__comment">
+                                        <div class="name__customer">@value.Email</div>
+                                        <div class="content__comment__customer">
+                                            @item.Content
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('.active').removeClass('active');
+    $('.single_product_page').addClass('active');
+</script>
+@section parse {
+    <script>
+        let x = document.querySelectorAll("ins");
+        for (let i = 0, len = x.length; i < len; i++) {
+            let num = Number(x[i].innerHTML)
+                      .toLocaleString('en');
+            x[i].innerHTML = num +' VND';
+        }
+        let y = document.querySelectorAll("del");
+        for (let i = 0, len = y.length; i < len; i++) {
+            let num = Number(y[i].innerHTML)
+                      .toLocaleString('en');
+            y[i].innerHTML = num;
+            y[i].classList.add("currSign") + ' VND';
+        }
+    </script>
+}

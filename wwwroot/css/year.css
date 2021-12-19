@@ -1,0 +1,22 @@
+.year {
+    padding: 10px;
+}
+
+.datepicker-switch {
+    font-size: 30px;
+    text-align: center;
+}
+
+.prev {
+    font-size: 40px;
+}
+
+.next {
+    font-size: 40px;
+    text-align: right;   
+}
+
+.year:hover {
+    color: white;
+    background-color: #f44336;
+}

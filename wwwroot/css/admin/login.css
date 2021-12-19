@@ -1,0 +1,126 @@
+body {
+    /* background: #eee !important; */
+    background-image: url("../../admin-backgroud-page.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow-y: hidden;
+  }
+  
+  
+  
+  .wrapper {
+    margin-top: 80px;
+    margin-bottom: 80px;
+  }
+  
+  .form-signin {
+    max-width: 380px;
+    padding: 15px 35px 45px;
+    margin: 0 auto;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-signin-heading{
+    cursor: pointer;
+  }
+  
+  .form-signin-heading, .checkbox {
+    margin-bottom: 30px;
+  }
+  
+  .checkbox {
+    font-weight: normal;
+  }
+  
+  .form-control {
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+    @include box-sizing(border-box);
+    &:focus {
+      z-index: 2;
+    }
+  }
+  
+  /* input[type="text"] {
+    margin-bottom: -1px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  } */
+  
+  /* input[type="password"] {
+    margin-bottom: 20px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  } */
+  
+  .type1{
+    margin-bottom: -1px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  
+  .type2{
+    margin-bottom: 20px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+  
+  .active{
+    color: #ffa0a0;
+  }
+  
+  .form-signin a{
+    text-decoration: none;
+  }
+  
+  .d-flex a {
+    text-decoration: none;
+  }
+  
+  .icon_facebook {
+    background-color: #283d68;
+    width: 20%;
+    text-align: center;
+    color: white;
+  }
+  
+  .icon_google {
+    background-color: #b52f1f;
+    width: 20%;
+    text-align: center;
+    color: white;
+  }
+  
+  .context_facebook {
+    background-color: #3b5998;
+    width: 80%;
+    color: white;
+    text-align: center;
+  }
+  
+  .context_facebook:hover {
+    color: #ff9800;
+  }
+  
+  .context_google {
+    background-color: #dd4b39;
+    width: 80%;
+    color: white;
+    text-align: center;
+  }
+  
+  .hide{
+    display: none;
+  }
+  
+  .context_google:hover {
+    color: #ff9800;
+  }
+  
+  .form-signin .margin_none{
+    margin: none;
+  }
+  

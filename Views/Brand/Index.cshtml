@@ -1,0 +1,62 @@
+@using WebBanMayTinh.Models
+@{
+    Layout = "_LayoutAdmin";
+    var brands = ViewData["brand"] as List<Brand>;
+    var alertStoreBrand = ViewData["alertStoreBrand"];
+    var alertUpdateBrand = ViewData["alertUpdateBrand"];
+    var alertDeleteBrand = ViewData["alertDeleteBrand"];
+}
+  @if(Convert.ToInt32(alertStoreBrand) == 0)
+  {
+    <div class="alert alert-success" role="alert">
+       Thêm thành công
+    </div>
+  }
+    @if(Convert.ToInt32(alertUpdateBrand) == 0)
+  {
+    <div class="alert alert-success" role="alert">
+       Cập nhật thành công
+    </div>
+  }
+    @if(Convert.ToInt32(alertDeleteBrand) == 0)
+  {
+    <div class="alert alert-success" role="alert">
+       Xóa thành công
+    </div>
+  }
+<main>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            DataTable Example
+        </div>
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                        @foreach (var brand in brands)
+                        {
+                            <tr>
+                            <td><img src="~/uploads/brands/@brand.Image" alt="" style="width:270px;height:120px;"></td>
+                            <td>@brand.Name</td>
+                            <td><a asp-action="Edit" asp-route-id="@brand.Id">Sửa</a></td>
+                            <td><a asp-action="Destroy" asp-route-id="@brand.Id">Xóa</a></td>
+                            </tr>
+                        }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+</main>

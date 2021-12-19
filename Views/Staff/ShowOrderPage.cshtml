@@ -1,0 +1,115 @@
+@{
+    Layout = "_LayoutStaff";
+    var orders = ViewData["orders"] as Order;
+    var orders_product = ViewData["orders_product"] as List<OrderProduct>;
+    var sum_price = 0;
+    var email = new sanphamContext().Users.Find(orders.IdUser).Email;
+}
+
+<div class="container">
+    <div class="row justify-content-center text-print">
+        <div class="col-md-8 order-md-1">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">Thông tin đơn hàng</span>
+            </h4>
+            <ul class="list-group mb-3 sticky-top">
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <div>
+                        <h6 class="my-0">Email khách hàng</h6>
+                        <small class="text-muted">@email</small>
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <div>
+                        <h6 class="my-0">Tên khách hàng</h6>
+                        <small class="text-muted">@orders.Name</small>
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <div>
+                        <h6 class="my-0">Địa chỉ</h6>
+                        <small class="text-muted">@orders.Address</small>
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <div>
+                        <h6 class="my-0">Quận huyện</h6>
+                        <small class="text-muted">@orders.District</small>
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <div>
+                        <h6 class="my-0">Thành phố</h6>
+                        <small class="text-muted">@orders.City</small>
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <div>
+                        <h6 class="my-0">Điện thoại</h6>
+                        <small class="text-muted">@orders.Phone</small>
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <div>
+                        <h6 class="my-0">Ghi chú đơn hàng</h6>
+                        <small class="text-muted">@orders.OtherNote</small>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-8 order-md-1">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">Sản phẩm</span>
+            </h4>
+            <ul class="list-group mb-3 sticky-top">
+                @foreach (var item in orders_product)
+                {
+                    var value = new sanphamContext().Products.Find(item.IdProduct);
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                        <div>
+                            <h6 class="my-0">Product Name</h6>
+                            <small class="text-muted">@value.Name</small>
+                        </div>
+                        <span class="text-muted parse-money">@value.DiscountPrice</span>
+                    </li>
+                    sum_price += @value.DiscountPrice;
+                }
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Total (VND)</span>
+                    <strong class="parse-money">@sum_price</strong>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <button type="button" class="btn btn-secondary btn-lg btn-block col form-control btn_print_click" onclick="printDiv('text-print')">Xuất đơn hàng</button>
+</div> 
+@section printPage {
+<script>
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = printContents;
+
+        window.print();
+
+        document.body.innerHTML = originalContents;
+    }
+</script>
+}
+@section parse {
+    <script>
+        let x = document.querySelectorAll(".parse-money");
+        for (let i = 0, len = x.length; i < len; i++) {
+            let num = Number(x[i].innerHTML)
+                      .toLocaleString('en');
+            x[i].innerHTML = num +' VND';
+        }
+        @* let y = document.querySelectorAll("del");
+        for (let i = 0, len = y.length; i < len; i++) {
+            let num = Number(y[i].innerHTML)
+                      .toLocaleString('en');
+            y[i].innerHTML = num + ' VND';
+        } *@
+    </script>
+}

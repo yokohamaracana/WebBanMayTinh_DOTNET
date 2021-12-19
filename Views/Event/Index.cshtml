@@ -1,0 +1,64 @@
+@using WebBanMayTinh.Models
+@{
+    Layout = "_LayoutAdmin";
+    var events = ViewData["events"] as List<Event>;
+    var alertStoreEvent = ViewData["alertStoreEvent"];
+    var alertUpdateEvent = ViewData["alertUpdateEvent"];
+    var alertDeleteEvent = ViewData["alertDeleteEvent"];
+}
+  @if(Convert.ToInt32(alertStoreEvent) == 0)
+  {
+    <div class="alert alert-success" role="alert">
+       Thêm thành công
+    </div>
+  }
+    @if(Convert.ToInt32(alertUpdateEvent) == 0)
+  {
+    <div class="alert alert-success" role="alert">
+       Cập nhật thành công
+    </div>
+  }
+    @if(Convert.ToInt32(alertDeleteEvent) == 0)
+  {
+    <div class="alert alert-success" role="alert">
+       Xóa thành công
+    </div>
+  }
+<main>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            DataTable Example
+        </div>
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Image</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Name</th>
+                        <th>Image</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                        @foreach (var product in events)
+                        {
+                            <tr>
+                                <td>@product.Name</td>
+                                <td><img src="~/uploads/events/@product.Image" alt="" style="width:270px;height:120px;"></td>
+                                <td><a asp-action="edit" asp-route-id="@product.Id">Sửa</a></td>
+                                <td><a asp-action="destroy" asp-route-id="@product.Id">Xóa</a></td>
+                            </tr>
+                        }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+</main>
+
+ 

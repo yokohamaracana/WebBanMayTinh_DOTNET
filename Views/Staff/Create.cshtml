@@ -1,0 +1,23 @@
+@{
+    Layout = "_LayoutAdmin";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card-header">
+
+        </div>
+        <div class="card-body">
+
+            <form autocomplete="off"  asp-controller="Staff" asp-action="Store" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="title">Tài khoản</label>
+                    <input type="text" class="form-control" name="name" id="" placeholder="tài khoản" required="">
+                    <label for="title">Mật khẩu</label>
+                    <input type="password" class="form-control" name="password" id="" placeholder="mật khẩu" required="">
+                    <input type="submit" class="btn btn-primary mt-2" value="Thêm">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,83 @@
+@{
+    Layout = "";
+    var alertLogin = ViewData["alertLogin"];
+    var alertRegister = ViewData["alertRegister"];
+}
+
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://code.jquery.com/jquery-latest.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+  @* <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" *@
+    @* integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> *@
+  @* <link rel="stylesheet" href="./login.css" /> *@
+      <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/users/login.css" />
+</head>
+
+<body>
+  @if(Convert.ToInt32(alertLogin) == 0)
+  {
+    <div class="alert alert-danger" role="alert">
+        Đăng nhập thất bại
+    </div>
+  }
+    @if(Convert.ToInt32(alertRegister) == 0)
+    {
+    <div class="alert alert-success" role="alert">
+        Đăng ký thành công
+    </div>
+    }
+  <div class="wrapper login">
+    <form class="form-signin" asp-controller="Users" asp-action="Login" method="post" >
+      <div class="d-flex">
+        <h4 class="form-signin-heading w-50 h-100 p-3 text-center click_login active">Đăng nhập</h4>
+        <h4 class="form-signin-heading w-50 h-100 p-3 text-center click_register">Đăng kí</h4>
+      </div>
+      <input type="text" class="form-control" name="user-login" placeholder="Email Address" required="" autofocus="" />
+      <input type="password" class="form-control margin_none type2" name="password-login" placeholder="Password" required="" />
+
+      <label class="checkbox">
+        <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Ghi nhớ mật khẩu
+      </label>
+      <a href="" class="float-right forget_password">Quên mật khẩu</a>
+      <input type="submit" class="form-control bg-primary text-white" value="Đăng nhập">
+    </form>
+  </div>
+  <div class="wrapper hide register">
+    <form class="form-signin" asp-controller="Users" asp-action="Register" method="post">
+      <div class="d-flex">
+        <h4 class="form-signin-heading w-50 h-100 p-3 text-center click_login">Đăng nhập</h4>
+        <h4 class="form-signin-heading w-50 h-100 p-3 text-center click_register active">Đăng kí</h4>
+      </div>
+      <input type="email" class="form-control" name="email-register" placeholder="Email Address" required="" autofocus="" />
+      <input type="password" class="form-control none_margin" name="password-register" placeholder="Password" required="" />
+      @* <input type="password" class="form-control" name="password1" placeholder="Retype Password" required="" /> *@
+      <input type="text" class="form-control type2" name="phone-number-register" placeholder="Phone Number" required="" autofocus="" />
+      <input type="submit" class="form-control bg-primary text-white" value="Đăng kí">
+    </form>
+  </div>
+  <script>
+    $(document).ready(function () {
+      $(".click_register").click(function () {
+        $('.login').addClass('hide');
+        $('.register').removeClass('hide');
+      });
+
+      $(".click_login").click(function () {
+        $('.register').addClass('hide');
+        $('.login').removeClass('hide');
+      });
+
+    });
+
+  </script>
+</body>
+
+</html>

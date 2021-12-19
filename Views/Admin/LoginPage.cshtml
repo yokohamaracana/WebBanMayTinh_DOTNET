@@ -1,0 +1,74 @@
+@{
+    Layout = "";
+}
+
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://code.jquery.com/jquery-latest.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+  @* <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" *@
+    @* integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> *@
+  @* <link rel="stylesheet" href="./login.css" /> *@
+      <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/admin/login.css" />
+</head>
+
+<body>
+  <div class="wrapper login">
+    <form class="form-signin" asp-controller="Admin" asp-action="Login" method="post" >
+      <div class="d-flex">
+        <h4 class="form-signin-heading w-50 h-100 p-3 text-center click_login active">Đăng nhập Admin</h4>
+        <h4 class="form-signin-heading w-50 h-100 p-3 text-center click_register">Đăng nhập nhân viên</h4>
+      </div>
+      <input type="text" class="form-control" name="user-login" placeholder="Tài khoản" required="" autofocus="" />
+      <input type="password" class="form-control margin_none type2" name="password-login" placeholder="Password" required="" />
+
+      <a href="" class="float-right forget_password">Quên mật khẩu</a>
+      <input type="submit" class="form-control bg-primary text-white" value="Đăng nhập">
+    </form>
+  </div>
+  <div class="wrapper hide register">
+    <form class="form-signin" asp-controller="Staff" asp-action="Login" method="post">
+      <div class="d-flex">
+        <h4 class="form-signin-heading w-50 h-100 p-3 text-center click_login">Đăng nhập Admin</h4>
+        <h4 class="form-signin-heading w-50 h-100 p-3 text-center click_register active">Đăng nhập nhân viên</h4>
+      </div>
+      <input type="text" class="form-control" name="user" placeholder="Tài khoản" required="" autofocus="" />
+      <input type="password" class="form-control none_margin" name="password" placeholder="Mật khẩu" required="" />
+      @* <input type="password" class="form-control" name="password1" placeholder="Retype Password" required="" /> *@
+      <input type="submit" class="form-control bg-primary text-white" value="Đăng nhập">
+    </form>
+  </div>
+  <script>
+    $(document).ready(function () {
+      $(".click_register").click(function () {
+        $('.login').addClass('hide');
+        $('.register').removeClass('hide');
+      });
+
+      $(".click_login").click(function () {
+        $('.register').addClass('hide');
+        $('.login').removeClass('hide');
+      });
+
+    });
+
+  </script>
+  @* <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script> *@
+</body>
+
+</html>

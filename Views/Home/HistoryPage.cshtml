@@ -1,0 +1,51 @@
+@{
+    var history = ViewData["history"] as List<Order>;
+    int count = 1;
+}
+<h2 class="section-title">Lịch sử giao dịch</h2>
+    <div class="container">
+        <div class="row">
+<table class="table">
+    <thead>
+        <tr class="table-frontsize">
+            <th scope="col">#</th>
+            <th scope="col">Thời gian đặt hàng</th>
+            <th scope="col">Trạng thái giao dịch</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in history)
+        {
+            if (item.Status == 0)
+            {
+                <tr class="table-backgroud-1">
+                    <th scope="row">@count</th>
+                    <td>@item.Time</td>
+                    <td>Đang chờ duyệt...</td>
+                    <td><a asp-action="ShowOrderPage" asp-controller="Home" asp-route-id="@item.Id">Xem thông tin đơn hàng</a></td>
+                </tr>
+            }
+            if (item.Status == 1)
+            {
+                <tr class="table-backgroud-2">
+                    <th scope="row">@count</th>
+                    <td>@item.Time</td>
+                    <td>Đã duyệt</td>
+                    <td><a asp-action="ShowOrderPage" asp-controller="Home" asp-route-id="@item.Id">Xem thông tin đơn hàng</a></td>
+                </tr>
+            }
+            if (item.Status == 2)
+            {
+                <tr class="table-backgroud-3">
+                    <th scope="row">@count</th>
+                    <td>@item.Time</td>
+                    <td>Đã giao dịch</td>
+                    <td><a asp-action="ShowOrderPage" asp-controller="Home" asp-route-id="@item.Id">Xem thông tin đơn hàng</a></td>
+                </tr>
+            }
+            count++;
+        }
+    </tbody>
+</table>
+</div>
+</div>

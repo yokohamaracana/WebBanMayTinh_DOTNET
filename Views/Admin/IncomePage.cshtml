@@ -1,0 +1,118 @@
+@{
+    Layout = "_LayoutAdmin";
+    var year = ViewData["year"];
+}
+<h1 class="parse-money"> Tổng thu nhập năm @ViewData["year"]: @ViewData["orders"] VND</h1>
+<form asp-controller="Admin" asp-action="SelectYear" method="post">
+    <div id="date-picker-example" class="md-form md-outline input-with-post-icon datepicker">
+        <h3>Chọn năm:</h3>
+        <input type="text" class="form-control" name="datepicker" id="datepicker" autocomplete="off"/>
+        <input class="btn btn-primary" type="submit" value="Chọn">
+    </div>
+</form>
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-chart-bar me-1"></i>
+        Thống kê thu nhập theo tháng năm @ViewData["year"] (VND)
+    </div>
+    <div class="card-body"><canvas id="myBarChart" width="100%" height="20%"></canvas></div>
+</div>
+<h3>Chi tiết các tháng:</h3>
+<div class="d-flex">
+    @for (int i=1; i<13; i++) {
+        <a asp-action="MonthlyStatistics" asp-route-year="@year" asp-route-month="@i" class="btn btn-outline-primary" style="margin-right:5px">Tháng @i</a>
+    }
+</div>
+@section scripts {
+<script>
+    var january = @ViewData["january"];
+    var february = @ViewData["february"];
+    var march = @ViewData["march"];
+    var april = @ViewData["april"];
+    var may = @ViewData["may"];
+    var june = @ViewData["june"];
+    var july = @ViewData["july"];
+    var august = @ViewData["august"];
+    var september = @ViewData["september"];
+    var october = @ViewData["october"];
+    var november = @ViewData["november"];
+    var december = @ViewData["december"];
+
+    // Set new default font family and font color to mimic Bootstrap's default styling
+    Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+    Chart.defaults.global.defaultFontColor = '#292b2c';
+
+    // Bar Chart Example
+    var ctx = document.getElementById("myBarChart");
+    var myLineChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "Octobor", "November", "December"],
+            datasets: [{
+                label: "Revenue",
+                backgroundColor: "rgba(2,117,216,1)",
+                borderColor: "rgba(2,117,216,1)",
+                data: [january, february, march, april, may, june, july, august, september, october, november, december],
+            }],
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    time: {
+                        unit: 'month'
+                    },
+                    gridLines: {
+                        display: false
+                    },
+                    ticks: {
+                        maxTicksLimit: 12
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                        maxTicksLimit: 10
+                    },
+                    gridLines: {
+                        display: true
+                    }
+                }],
+            },
+            legend: {
+                display: false
+            }
+        }
+    });
+
+</script>
+}
+@section picker {
+<script>
+    $("#datepicker").datepicker({
+        format: "yyyy",
+        viewMode: "years",
+        minViewMode: "years",
+        autoclose: true //to close picker once year is selected
+    });
+</script>
+}
+@section css {
+    <link rel="stylesheet" href="~/css/year.css">
+}
+
+@section parse {
+    <script>
+        let x = document.querySelectorAll(".parse-money");
+        for (let i = 0, len = x.length; i < len; i++) {
+            let num = Number(x[i].innerHTML)
+                      .toLocaleString('en');
+            x[i].innerHTML = num +' VND';
+        }
+        @* let y = document.querySelectorAll("del");
+        for (let i = 0, len = y.length; i < len; i++) {
+            let num = Number(y[i].innerHTML)
+                      .toLocaleString('en');
+            y[i].innerHTML = num + ' VND';
+        } *@
+    </script>
+}

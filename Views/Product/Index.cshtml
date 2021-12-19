@@ -1,0 +1,102 @@
+@using WebBanMayTinh.Models
+@{
+    Layout = "_LayoutAdmin";
+    var products = ViewData["product"] as List<Product>;
+    var alertStoreProduct = ViewData["alertStoreProduct"];
+    var alertUpdateProduct = ViewData["alertUpdateProduct"];
+    var alertDeleteProduct = ViewData["alertDeleteProduct"];
+}
+  @if(Convert.ToInt32(alertStoreProduct) == 0)
+  {
+    <div class="alert alert-success" role="alert">
+       Thêm thành công
+    </div>
+  }
+    @if(Convert.ToInt32(alertUpdateProduct) == 0)
+  {
+    <div class="alert alert-success" role="alert">
+       Cập nhật thành công
+    </div>
+  }
+    @if(Convert.ToInt32(alertDeleteProduct) == 0)
+  {
+    <div class="alert alert-success" role="alert">
+       Xóa thành công
+    </div>
+  }
+<main>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            DataTable Example
+        </div>
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Image</th>
+                        <th>Price</th>
+                        <th>Discont Price</th>
+                        <th>Short Desc</th>
+                        <th>Desc</th>
+                        <th>Brand</th>
+                        <th>View</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Name</th>
+                        <th>Image</th>
+                        <th>Price</th>
+                        <th>Discont Price</th>
+                        <th>Short Desc</th>
+                        <th>Desc</th>
+                        <th>Brand</th>
+                        <th>View</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                        @foreach (var product in products)
+                        {
+                            <tr>
+                                <td>@product.Name</td>
+                                <td><img src="~/uploads/@product.Image" alt="" style="width:270px;height:120px;"></td>
+                                <td class="parse-money">@product.Price</td>
+                                <td class="parse-money">@product.DiscountPrice</td>
+                                <td>@product.ShortDesc</td>
+                                <td>@product.Desc</td>
+                                @{
+                                    var context = new sanphamContext();
+                                    var NameBrand = context.Brands.Find(product.Brand);
+                                }
+                                <td>@NameBrand.Name</td>
+                                <td>@product.View</td>
+                                <td><a asp-action="edit" asp-route-id="@product.Id">Sửa</a></td>
+                                <td><a asp-action="destroy" asp-route-id="@product.Id">Xóa</a></td>
+                            </tr>
+                        }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+</main>
+@section parse {
+    <script>
+        let x = document.querySelectorAll(".parse-money");
+        for (let i = 0, len = x.length; i < len; i++) {
+            let num = Number(x[i].innerHTML)
+                      .toLocaleString('en');
+            x[i].innerHTML = num +' VND';
+        }
+        @* let y = document.querySelectorAll("del");
+        for (let i = 0, len = y.length; i < len; i++) {
+            let num = Number(y[i].innerHTML)
+                      .toLocaleString('en');
+            y[i].innerHTML = num + ' VND';
+        } *@
+    </script>
+}
+ 
